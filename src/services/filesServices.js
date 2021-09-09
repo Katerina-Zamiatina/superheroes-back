@@ -25,7 +25,7 @@ const changeImage = async ({ heroId, file }) => {
   const img = await jimp.read(file.path);
   await img
     .autocrop()
-    .cover(250, 250, jimp.HORIZONTAL_ALIGN_CENTER || jimp.VERTICAL_ALIGN_MIDDLE)
+    .cover(300, 250, jimp.HORIZONTAL_ALIGN_CENTER || jimp.VERTICAL_ALIGN_MIDDLE)
     .quality(75)
     .writeAsync(file.path);
 
