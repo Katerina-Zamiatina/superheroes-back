@@ -19,8 +19,16 @@ class QueryError extends ClientError {
   }
 }
 
+class ValidationError extends ClientError {
+  constructor(message) {
+    super(message);
+    this.status = 400;
+  }
+}
+
 module.exports = {
   ClientError,
   WrongParametersError,
   QueryError,
+  ValidationError,
 };
