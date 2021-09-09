@@ -64,8 +64,8 @@ const deleteHeroController = async (req, res) => {
 
 const addImgController = async (req, res) => {
   const { file } = req;
-  const { heroId } = req;
-  const img = await changeImage({ heroId, file });
+  const { heroId } = req.params;
+  const img = await changeImage({ _id: heroId, file });
   res.json({ status: 'success', img });
 };
 
