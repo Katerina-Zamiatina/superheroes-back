@@ -21,13 +21,12 @@ const heroSchema = new Schema({
     type: String,
   },
   img: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
 });
 
-const Hero = mongoose.model('hero', heroSchema);
+const Hero = mongoose.model('heroe', heroSchema);
 
 module.exports = {
-    Hero
-}
+  Hero,
+};

@@ -22,12 +22,23 @@ const addHero = async body => {
 };
 
 const updateHero = async (heroId, body) => {
-  const updatedHero = await Hero.findByIdAndUpdate(heroId, body, { new: true });
+  const updatedHero = await Hero.findByIdAndUpdate({ _id: heroId }, body, {
+    new: true,
+  });
   return updatedHero;
 };
 
 const deleteHero = async heroId => {
-  await Hero.findByIdAndRemove(heroId);
+  await Hero.findByIdAndRemove({ _id: heroId });
+};
+
+const addImg = async (heroId, url) => {
+  const { img } = await Hero.findOneAndUpdate(
+    { _id: heroId },
+    { img: url },
+    { new: true },
+  );
+  return img;
 };
 
 module.exports = {
@@ -36,4 +47,5 @@ module.exports = {
   addHero,
   updateHero,
   deleteHero,
+  addImg,
 };
