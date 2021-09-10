@@ -1,6 +1,4 @@
-const fs = require('fs').promises;
 const { Storage } = require('@google-cloud/storage');
-const { Hero } = require('../db/heroModel');
 const Jimp = require('jimp');
 
 const storage = new Storage();
@@ -40,22 +38,9 @@ const editHeroImg = async filePath => {
     .writeAsync(filePath);
 };
 
-const changeImage = async ({ heroId, file }) => {
-  if (!file) {
-    throw new Error('Please, provide a photo');
-  }
-  await editHeroImg(file.path);
-  await uploadImages(file.path, file.filename).catch(console.error);
-  await fs.rm(file.path);
-  await getimgUrl(file);
-  await Hero.findOneAndUpdate({ _id: heroId }, { $set: { img: url } });
-};
-
 module.exports = {
   uploadImages,
   getimgUrl,
   editHeroImg,
-
   downloadHeroImage,
 };
-

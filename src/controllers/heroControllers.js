@@ -1,3 +1,4 @@
+const fs = require('fs').promises;
 require('dotenv').config();
 
 const {
@@ -12,7 +13,6 @@ const {
 const {
   uploadImages,
   editHeroImg,
-  changeImage,
   getimgUrl,
 } = require('../services/imgServices');
 
@@ -55,13 +55,6 @@ const deleteHeroController = async (req, res) => {
   res.status(200).json({ message: 'Hero was successfully deleted', result });
 };
 
-const addImgController = async (req, res) => {
-  const { file } = req;
-  const { heroId } = req.params;
-  const img = await changeImage({ _id: heroId, file });
-  res.json({ status: 'success', upHero });
-};
-
 const updateImgController = async (req, res) => {
   const { heroId } = req.params;
   const { file } = req;
@@ -86,6 +79,5 @@ module.exports = {
   addHeroController,
   updateHeroController,
   deleteHeroController,
-  addImgController,
   updateImgController,
 };

@@ -16,7 +16,6 @@ const {
   addHeroController,
   updateHeroController,
   deleteHeroController,
-  addImgController,
   updateImgController
 } = require('../controllers/heroControllers');
 
