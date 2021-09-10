@@ -1,4 +1,4 @@
-const { downloadHeroImage } = require('../services/filesServices');
+const { downloadHeroImage } = require('../services/imgServices');
 
 const uploadController = async (req, res) => {
   res.json({ status: 'success' });
@@ -7,7 +7,7 @@ const uploadController = async (req, res) => {
 const downloadController = async (req, res) => {
   const { filename } = req.params;
   await downloadHeroImage(filename).catch(console.error);
-  res.json({ status: 'success' });
+  res.status(200).json({ status: 'success' });
 };
 
 module.exports = {

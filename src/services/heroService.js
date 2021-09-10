@@ -32,13 +32,11 @@ const deleteHero = async heroId => {
   await Hero.findByIdAndRemove({ _id: heroId });
 };
 
-const addImg = async (heroId, url) => {
-  const { img } = await Hero.findOneAndUpdate(
+const updateImg = async (heroId, url) => {
+  await Hero.findOneAndUpdate(
     { _id: heroId },
-    { img: url },
-    { new: true },
+    { $set: { img: url } },
   );
-  return img;
 };
 
 module.exports = {
@@ -47,5 +45,5 @@ module.exports = {
   addHero,
   updateHero,
   deleteHero,
-  addImg,
+  updateImg,
 };

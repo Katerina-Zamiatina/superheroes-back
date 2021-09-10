@@ -1,6 +1,3 @@
-const fs = require('fs').promises;
-const path = require('path');
-
 require('dotenv').config();
 
 const {
@@ -9,19 +6,15 @@ const {
   addHero,
   updateHero,
   deleteHero,
-  addImg,
+  updateImg,
 } = require('../services/heroService');
 
-const { changeImage } = require('../services/filesServices');
-
-// const editHeroImg = require('../helpers/editImage');
-
-// const PORT = process.env.PORT;
-// const IMG_DIR = path.join(
-//   process.cwd(),
-//   process.env.PUBLIC_DIR,
-//   process.env.IMG_DIR,
-// );
+const {
+  uploadImages,
+  editHeroImg,
+  changeImage,
+  getimgUrl,
+} = require('../services/imgServices');
 
 const getHeroesController = async (req, res) => {
   const { page, perPage } = req.query;
@@ -59,30 +52,33 @@ const updateHeroController = async (req, res) => {
 const deleteHeroController = async (req, res) => {
   const result = await deleteHero(req.params.heroId);
 
-  res.status(200).json({ message: 'Hero was successfully deleted' });
+  res.status(200).json({ message: 'Hero was successfully deleted', result });
 };
 
 const addImgController = async (req, res) => {
   const { file } = req;
   const { heroId } = req.params;
   const img = await changeImage({ _id: heroId, file });
-  res.json({ status: 'success', img });
+  res.json({ status: 'success', upHero });
 };
 
-// const addImgController = async (req, res) => {
-//   const filePath = req.file.path;
-//   const fileName = req.file.filename;
-//   if (req.file) {
-//     await editHeroImg(filePath);
-//     await fs.rename(filePath, path.join(IMG_DIR, fileName));
-//     const newImgUrl = `http://localhost:${PORT}/${process.env.IMG_DIR}/${fileName}`;
-//     const url = await addImg(req.params.heroId, newImgUrl);
-//     res.status(200).json({ img: url, status: 'success' });
-//   }
-//   res
-//     .status(400)
-//     .json({ message: 'Invalid file. Possible extensions: jpeg, png, jpg' });
-// };
+const updateImgController = async (req, res) => {
+  const { heroId } = req.params;
+  const { file } = req;
+  const filePath = req.file.path;
+  const fileName = req.file.filename;
+  if (req.file) {
+    await editHeroImg(filePath);
+    await uploadImages(filePath, fileName);
+    // await fs.rm(file.path);
+    const newUrl = await getimgUrl(file);
+    await updateImg(heroId, newUrl);
+    res.status(200).json({ img: newUrl, status: 'success' });
+  }
+  res
+    .status(400)
+    .json({ message: 'Invalid file. Possible extensions: jpeg, png, jpg' });
+};
 
 module.exports = {
   getHeroesController,
@@ -91,4 +87,5 @@ module.exports = {
   updateHeroController,
   deleteHeroController,
   addImgController,
+  updateImgController,
 };

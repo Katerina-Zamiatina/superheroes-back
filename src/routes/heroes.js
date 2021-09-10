@@ -17,13 +17,14 @@ const {
   updateHeroController,
   deleteHeroController,
   addImgController,
+  updateImgController
 } = require('../controllers/heroControllers');
 
 router.get('/', asyncWrapper(getHeroesController));
 router.get('/:heroId', asyncWrapper(getHeroByIdController));
 router.post('/', asyncWrapper(addHeroController));
 router.patch('/:heroId', asyncWrapper(updateHeroController));
-router.patch('/images/:heroId', upload.single('image'), asyncWrapper(addImgController));
+router.patch('/images/:heroId', upload.single('image'), asyncWrapper(updateImgController));
 router.delete('/:heroId', asyncWrapper(deleteHeroController));
 
 module.exports = router;
