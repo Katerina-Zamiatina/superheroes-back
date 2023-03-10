@@ -20,7 +20,6 @@ const getHeroesController = async (req, res) => {
   const { page, perPage } = req.query;
 
   const heroes = await getHeroes({ page, perPage });
-
   res
     .status(200)
     .json({ heroes, pagination: { page, perPage }, status: 'success' });
